@@ -8,14 +8,13 @@ import "./FormulaInput.css";
 export function FormulaInput() {
   const [tokens, setTokens] = useState<any[]>([]);
   const [errors, setErrors] = useState<any[]>([]);
-  const [errorStr, setErrorStr] = useState("");
-  const [formula, setFormula] = useState(
-    `max($amount,100) + 1000 + sum($totalTransactions,100)`
+  const [errorStr, setErrorStr] = useState<string>("");
+  const [formula, setFormula] = useState<string>(
+    `min($transformation_unit_price, $storage_unit_price)`
   );
 
   useEffect(() => {
     const tokens = getTokens(formula);
-    console.log(tokens);
     const errors = getValidationErrors(tokens,Object.keys(rowData));
     let errorString = "";
     let invalidCharacter = "";
@@ -26,7 +25,7 @@ export function FormulaInput() {
           i++;
         }
       }
-        errorString+= invalidCharacter!=="" ? `Invalid "${invalidCharacter}"` : `${errors[i].errorType} '${errors[i]?.token?.value}'`;
+        errorString+= errors[i]?.message ? errors[i]?.message : (invalidCharacter!=="" ? `Invalid "${invalidCharacter}"` : `${errors[i].errorType} '${errors[i]?.token?.value}'`);
         invalidCharacter = "";
         if(i< errors.length -1){
             errorString+=" , ";
@@ -35,6 +34,7 @@ export function FormulaInput() {
     setTokens(tokens);
     setErrors(errors);
     setErrorStr(errorString);
+
   }, [formula]);
 
 
@@ -61,7 +61,7 @@ export function FormulaInput() {
       />
 
         {errors.length>0 && 
-            <div className="errorBox error">
+            <div className="errorBox error" data-testid="errorDiv">
             {errorStr}
             </div>
         }
@@ -73,15 +73,18 @@ export function FormulaInput() {
 
       <h2 className="heading mt-5">Supported variables List</h2>
       <table className="customers">
+        <thead>
         <tr>
             <th>Reference Keys</th>
             <th>Reference Values</th>
         </tr>
-
+        </thead>
+        <tbody>
         {Object.keys(rowData).map((key)=><tr key={key}>
             <td>{key}</td>
             <td>{rowData[key]}</td>
         </tr>)}
+        </tbody>
      </table>
     </div>
   );

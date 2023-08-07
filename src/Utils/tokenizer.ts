@@ -46,7 +46,6 @@ export function getNextToken ({ match, skip, prev }: LexerStream): TokenType {
     return TokenType.Number
   }
 
-  //if(match(/^if\s*\(+([^\(\)]|\s)*\)+\s*{(.|\s)*?}/,false)){
   if(match(/^if\s*\(.*\)+\s*{(.|\s)*}/,false)){
     if(match(/if/,true)){
       return TokenType.IfCondition;
@@ -88,6 +87,8 @@ export function getNextToken ({ match, skip, prev }: LexerStream): TokenType {
     [/^[a-zA-Z][a-zA-Z0-9]*(?=\s*\()/, TokenType.FunctionName],
     [/^\(/, TokenType.BracketStart],
     [/^\)/, TokenType.BracketEnd],
+    [/^\[/, TokenType.SquareBracketStart],
+    [/^\]/, TokenType.SquareBracketEnd],
     [/^\$/, TokenType.ReferenceVariableStart],
     [/^,/, TokenType.Comma],
     [/^\s+/, TokenType.Whitespace]

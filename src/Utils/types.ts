@@ -22,6 +22,8 @@ export enum TokenType {
   ElseCondition = 'ElseCondition',
   ConditionBracketStart = 'ConditionBracketStart',
   ConditionBracketEnd = 'ConditionBracketEnd',
+  SquareBracketStart = 'SquareBracketStart',
+  SquareBracketEnd = 'SquareBracketEnd',
   ReturnKeyword = 'ReturnKeyword'
 }
 
@@ -32,6 +34,7 @@ export const operatorAllowedAfter = [
   TokenType.QuoteEnd,
   TokenType.DoubleQuoteEnd
 ]
+
 
 export type Token = {
   type: TokenType
@@ -64,13 +67,14 @@ export enum ErrorType {
   UnexpectedElseIfCondition = 'UnexpectedElseIfCondition',
   UnexpectedReturn = 'Unexpected keyword',
   UnexpectedBracket = 'UnexpectedBracket',
-  UnexpectedReferenceBracket = 'UnexpectedReferenceBracket',
   UnexpectedConditionBracket = 'UnexpectedConditionBracket',
+  UnexpectedSquareBracket = 'UnexpectedSquareBracket',
   ReferenceNameRequiredInBrackets = 'ReferenceNameRequiredInBrackets',
   UnsupportedReferenceName = 'Column not supported',
   UnclosedQuote = 'UnclosedQuote',
   UnclosedDoubleQuote = 'UnclosedDoubleQuote',
   UnclosedBracket = 'UnclosedBracket',
+  UnclosedSqureBracket = 'UnclosedSqureBracket',
   UnclosedReferenceBracket = 'UnclosedReferenceBracket',
   UnclosedIfConditionBracket = 'UnclosedIfConditionBracket',
   UnclosedConditionBracket = 'UnclosedConditionBracket',
@@ -79,8 +83,11 @@ export enum ErrorType {
   DependsOnInvalid = 'DependsOnInvalid',
   DependsOnCircular = 'DependsOnCircular',
   EmptyIfCondition = 'EmptyIfCondition',
+  EmptyElseIfCondition = 'EmptyElseIfCondition',
   EmptyCondition = 'EmptyCondition',
-  EmptyVariableName = 'Must Contain variable name after'
+  EmptyVariableName = 'Must Contain variable name after',
+  Required = 'Required',
+  ReturnWithoutSquareBrackets = `if/ else if/ else should have return statement wrapped by '[]' before `
 }
 
 export type ValidationError = {
