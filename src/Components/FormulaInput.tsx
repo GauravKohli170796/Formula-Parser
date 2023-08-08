@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { rowData } from "../Utils/data";
 import { getTokens } from "../Utils/lexar";
-import { ErrorType } from "../Utils/types";
+import { ErrorType, ValidationError } from "../Utils/types";
 import { getValidationErrors } from "../Utils/validator";
 import "./FormulaInput.css";
 
@@ -12,6 +12,16 @@ export function FormulaInput() {
   const [formula, setFormula] = useState<string>(
     `min($transformation_unit_price, $storage_unit_price)`
   );
+
+  const getErrorString=(error: ValidationError,invalidCharacter: string):string=>{
+    if(error?.message){
+      return error.message;
+    }
+    else if(invalidCharacter!==""){
+      return `Invalid '${invalidCharacter}'`;
+    }
+    return `${error.errorType} '${error?.token?.value}'`;
+  };
 
   useEffect(() => {
     const tokens = getTokens(formula);
@@ -25,7 +35,7 @@ export function FormulaInput() {
           i++;
         }
       }
-        errorString+= errors[i]?.message ? errors[i]?.message : (invalidCharacter!=="" ? `Invalid "${invalidCharacter}"` : `${errors[i].errorType} '${errors[i]?.token?.value}'`);
+        errorString+= getErrorString(errors[i],invalidCharacter);
         invalidCharacter = "";
         if(i< errors.length -1){
             errorString+=" , ";
