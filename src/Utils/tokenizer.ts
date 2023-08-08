@@ -84,6 +84,7 @@ export function getNextToken ({ match, skip, prev }: LexerStream): TokenType {
   const rest: [RegExp, TokenType][] = [
     [/^(<=|==|>=)/, TokenType.Operator],
     [/^[+\-*/^<=>&]/, TokenType.Operator],
+    [/^(and|or)/i, TokenType.Operator],
     [/^[a-zA-Z][a-zA-Z0-9]*(?=\s*\()/, TokenType.FunctionName],
     [/^\(/, TokenType.BracketStart],
     [/^\)/, TokenType.BracketEnd],
